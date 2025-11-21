@@ -9,6 +9,10 @@ import { DashboardLayout } from '@/pages/layouts/DashboardLayout';
 const HomePage = lazy(() => import('@/pages/Home'));
 const NotFoundPage = lazy(() => import('@/pages/NotFound'));
 
+// Feature pages
+const PurchaseListPage = lazy(() => import('@/pages/Purchase'));
+const PurchaseFormPage = lazy(() => import('@/pages/PurchaseForm'));
+
 /**
  * @router AppRouter
  * @summary Main application routing configuration
@@ -35,7 +39,35 @@ export const router = createBrowserRouter([
         path: 'dashboard',
         element: <DashboardLayout />,
         children: [
-          // Feature routes will be added here
+          {
+            path: 'purchases',
+            children: [
+              {
+                index: true,
+                element: (
+                  <Suspense fallback={<LoadingSpinner />}>
+                    <PurchaseListPage />
+                  </Suspense>
+                ),
+              },
+              {
+                path: 'new',
+                element: (
+                  <Suspense fallback={<LoadingSpinner />}>
+                    <PurchaseFormPage />
+                  </Suspense>
+                ),
+              },
+              {
+                path: ':id/edit',
+                element: (
+                  <Suspense fallback={<LoadingSpinner />}>
+                    <PurchaseFormPage />
+                  </Suspense>
+                ),
+              },
+            ],
+          },
         ],
       },
       {
